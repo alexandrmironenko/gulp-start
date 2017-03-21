@@ -99,6 +99,9 @@ gulp.task('build', ['clean', 'less', 'scripts', 'htmlinclude', 'img'], function(
     .pipe(cssnano())
 	.pipe(gulp.dest('dist/css'))
 
+    var buildCss = gulp.src('app/font/**/*')
+	.pipe(gulp.dest('dist/font'))
+    
 	var buildJs = gulp.src('app/js/**/*')
     .pipe(uglify())
 	.pipe(gulp.dest('dist/js'))
