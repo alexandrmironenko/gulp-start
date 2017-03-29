@@ -93,7 +93,7 @@ gulp.task('clean', function() {
 	return del.sync('dist');
 });
 
-gulp.task('build', ['clean', 'less', 'scripts', 'htmlinclude', 'img'], function() {
+gulp.task('build', ['clean', 'scss', 'scripts', 'img'], function() {
 
 	var buildCss = gulp.src('app/css/**/*')
     .pipe(cssnano())
