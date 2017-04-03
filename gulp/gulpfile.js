@@ -4,13 +4,16 @@ var gulp         = require('gulp'),
 	del          = require('del'),
     uglify       = require('gulp-uglifyjs'), 
     cssnano      = require('gulp-cssnano'),
+    uncss        = require('gulp-uncss'),
     imagemin     = require('gulp-imagemin'),
     pngquant     = require('imagemin-pngquant'),
     cache        = require('gulp-cache'),
     concat       = require('gulp-concat'),
     sitemap      = require('gulp-sitemap'),
     robots       = require('gulp-robots'),
-    autoprefixer = require('gulp-autoprefixer');
+    autoprefixer = require('gulp-autoprefixer'),
+    notify       = require('gulp-notify'),
+    ftp          = require('vinyl-ftp');
 
 
 
@@ -24,7 +27,10 @@ gulp.task('scss', function(){
                 require('node-normalize-scss').includePaths,
                 require('bourbon-neat').includePaths
             ]
-        }))
+        })
+        .on('error', notify.onError(function (error) {
+            return "A task sсss error occurred: " + error.message;
+        })))
         .pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
         .pipe(gulp.dest('app/css'))
         .pipe(browserSync.reload({stream: true}))
@@ -32,16 +38,22 @@ gulp.task('scss', function(){
 
 gulp.task('scripts', function(){
 	return gulp.src('app/libs/**/*.js') 
-        .pipe(concat('libs.js'))
-        .pipe(browserSync.reload({stream: true}))
-		.pipe(gulp.dest('app/js'));
+        .pipe(concat('libs.js')
+        .on('error', notify.onError(function (error) {
+            return "A task scripts error occurred: " + error.message;
+        })))
+		.pipe(gulp.dest('app/js'))
+        .pipe(browserSync.reload({stream: true}));
 });
 
 gulp.task('style', function(){
 	return gulp.src('app/libs/**/*.css') 
-        .pipe(concat('libs.css'))
-        .pipe(browserSync.reload({stream: true}))
-		.pipe(gulp.dest('app/css'));
+        .pipe(concat('libs.css')
+        .on('error', notify.onError(function (error) {
+            return "A task style error occurred: " + error.message;
+        })))
+		.pipe(gulp.dest('app/css'))
+        .pipe(browserSync.reload({stream: true}));
 });
 
 gulp.task('browser-sync', function() {
@@ -93,10 +105,13 @@ gulp.task('clean', function() {
 	return del.sync('dist');
 });
 
-gulp.task('build', ['clean', 'scss', 'scripts', 'img'], function() {
+gulp.task('build', ['clean', 'img'], function() {
 
 	var buildCss = gulp.src('app/css/**/*')
     .pipe(cssnano())
+    .pipe(uncss({
+            html: ['index.html']
+        }))
 	.pipe(gulp.dest('dist/css'))
 
     var buildCss = gulp.src('app/font/**/*')
@@ -137,3 +152,27 @@ gulp.task('robots', function () {
 });
 
 gulp.task('meta', ['sitemap', 'robots' ]);
+
+
+
+
+// Выгрузка файлов на сервер по ftp 
+
+gulp.task('deploy', function() {
+
+	var conn = ftp.create({
+		host:      'hostname.com',
+		user:      'username',
+		password:  'userpassword',
+		parallel:  10,
+		log: gutil.log
+	});
+
+	var globs = [
+	'dist/**',
+	'dist/.htaccess',
+	];
+	return gulp.src(globs, {buffer: false})
+	.pipe(conn.dest('/path/to/folder/on/server'));
+
+});

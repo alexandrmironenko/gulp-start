@@ -404,10 +404,3 @@ template {
  */
 [hidden] {
   display: none; }
-
-@font-face {
-  font-family: "HelveticaRegular";
-  font-weight: normal;
-  font-style: normal;
-  src: url("../fonts/HelveticaRegular.eot");
-  src: url("../fonts/HelveticaRegular.eot?#iefix") format("embedded-opentype"), url("../fonts/HelveticaRegular.woff") format("woff"), url("../fonts/HelveticaRegular.ttf") format("truetype"); }

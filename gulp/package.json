@@ -1,29 +1,32 @@
 {
-  "name": " ",
+  "name": "pr",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "bourbon": "^4.3.3",
+    "bourbon": "^4.3.4",
     "bourbon-neat": "^2.0.0",
     "browser-sync": "^2.18.8",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
-    "gulp-cache": "^0.4.5",
+    "gulp-cache": "^0.4.6",
     "gulp-concat": "^2.6.1",
     "gulp-cssnano": "^2.1.2",
-    "gulp-imagemin": "^3.1.1",
+    "gulp-imagemin": "^3.2.0",
+    "gulp-notify": "^3.0.0",
     "gulp-robots": "^2.0.4",
     "gulp-sass": "^3.1.0",
     "gulp-sitemap": "^4.2.0",
     "gulp-uglifyjs": "^0.6.2",
+    "gulp-uncss": "^1.0.6",
     "imagemin-pngquant": "^5.0.0",
-    "node-normalize-scss": "^1.4.0"
+    "node-normalize-scss": "^1.4.0",
+    "vinyl-ftp": "^0.6.0"
   }
 }
