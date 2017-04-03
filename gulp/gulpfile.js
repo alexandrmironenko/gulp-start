@@ -31,7 +31,7 @@ gulp.task('scss', function(){
         .on('error', notify.onError(function (error) {
             return "A task sсss error occurred: " + error.message;
         })))
-        .pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
+        .pipe(autoprefixer(['last 15 versions']))
         .pipe(gulp.dest('app/css'))
         .pipe(browserSync.reload({stream: true}))
 });
