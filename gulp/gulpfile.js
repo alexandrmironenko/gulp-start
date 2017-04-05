@@ -1,21 +1,21 @@
-var gulp         = require('gulp'),
-    sass         = require('gulp-sass'),
-    browserSync  = require('browser-sync'),
-	del          = require('del'),
-    uglify       = require('gulp-uglifyjs'), 
-    cssnano      = require('gulp-cssnano'),
-    uncss        = require('gulp-uncss'),
-    imagemin     = require('gulp-imagemin'),
-    pngquant     = require('imagemin-pngquant'),
-    cache        = require('gulp-cache'),
-    concat       = require('gulp-concat'),
-    sitemap      = require('gulp-sitemap'),
-    robots       = require('gulp-robots'),
-    autoprefixer = require('gulp-autoprefixer'),
-    notify       = require('gulp-notify'),
-    ftp          = require('vinyl-ftp');
-
-
+var gulp           = require('gulp'),
+    sass           = require('gulp-sass'),
+    browserSync    = require('browser-sync'),
+	del            = require('del'),
+    uglify         = require('gulp-uglifyjs'), 
+    cssnano        = require('gulp-cssnano'),
+    uncss          = require('gulp-uncss'),
+    imagemin       = require('gulp-imagemin'),
+    pngquant       = require('imagemin-pngquant'),
+    cache          = require('gulp-cache'),
+    concat         = require('gulp-concat'),
+    sitemap        = require('gulp-sitemap'),
+    robots         = require('gulp-robots'),
+    autoprefixer   = require('gulp-autoprefixer'),
+    notify         = require('gulp-notify'),
+    ftp            = require('vinyl-ftp'),
+    bower          = require('gulp-bower'),
+    mainBowerFiles = require('main-bower-files');
 
 // Главный таск. Работа с файлами, библиотеками, препроцессорами. Вызывается через команду "gulp".
 
@@ -74,7 +74,7 @@ gulp.task('watch', ['browser-sync', 'scripts', 'style', 'scss'], function() {
 	gulp.watch('app/**/*.html', browserSync.reload);
 });
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['watch', 'bower-libs']);
 
 
 
@@ -156,7 +156,7 @@ gulp.task('meta', ['sitemap', 'robots' ]);
 
 
 
-// Выгрузка файлов на сервер по ftp 
+// Выгрузка файлов на сервер по ftp.
 
 gulp.task('deploy', function() {
 
@@ -175,4 +175,26 @@ gulp.task('deploy', function() {
 	return gulp.src(globs, {buffer: false})
 	.pipe(conn.dest('/path/to/folder/on/server'));
 
+});
+
+
+
+// Пакетный менеджер. Пакеты js подключаются автоматически, остальное следует переносить в ручную. 
+
+gulp.task('bower', function() {
+  return bower({ directory: 'bower_components'})
+    .pipe(gulp.dest('bower_components/'))
+});
+
+
+gulp.task('bower-libs',function(){
+  return gulp.src(mainBowerFiles({
+  filter:'**/*.js',
+    paths: {
+        bowerDirectory: 'bower_components',
+        bowerrc: '.bowerrc',
+        bowerJson: 'bower.json'
+    }
+}))
+  .pipe(gulp.dest('app/libs'));
 });
