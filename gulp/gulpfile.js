@@ -108,10 +108,8 @@ gulp.task('clean', function() {
 gulp.task('build', ['clean', 'img'], function() {
 
 	var buildCss = gulp.src('app/css/**/*')
+    .pipe(uncss({html: 'index.html'}))
     .pipe(cssnano())
-    .pipe(uncss({
-            html: ['index.html']
-        }))
 	.pipe(gulp.dest('dist/css'))
 
     var buildFont = gulp.src('app/font/**/*')
