@@ -170,7 +170,6 @@ gulp.task('deploy', function() {
 
 	var globs = [
 	'dist/**',
-	'dist/.htaccess',
 	];
 	return gulp.src(globs, {buffer: false})
 	.pipe(conn.dest('/path/to/folder/on/server'));
