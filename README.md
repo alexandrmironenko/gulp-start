@@ -20,7 +20,6 @@
   <li>Фреймворк bourbon</li>
   <li>Сетка neat</li>
   <li>Набор иконок font awesome</li>
-  <li>jQuery</li>
 </ul>
 
 <h2>Установка:</h2>
