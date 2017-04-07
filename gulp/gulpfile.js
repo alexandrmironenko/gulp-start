@@ -184,14 +184,18 @@ gulp.task('bower', function() {
 });
 
 
-gulp.task('bower-libs',function(){
+gulp.task('bower-js',function(){
   return gulp.src(mainBowerFiles({
-  filter:'**/*.js',
-    paths: {
-        bowerDirectory: 'bower_components',
-        bowerrc: '.bowerrc',
-        bowerJson: 'bower.json'
-    }
+  filter:'**/*.js'
 }))
   .pipe(gulp.dest('app/libs'));
 });
+
+gulp.task('bower-css',function(){
+  return gulp.src(mainBowerFiles({
+  filter:'**/*.css'
+}))
+  .pipe(gulp.dest('app/libs'));
+});
+
+gulp.task('bower-libs', ['bower-js', 'bower-css']);
